@@ -1,39 +1,38 @@
-﻿#include <iostream>   
+#include <iostream>   
 #include <vector>     
 #include <ctime>
 #include <math.h>
 using namespace std;
 
 #define MAX_NUMBER_OF_MATRIX  10
-int getValue(int i, int j, vector <vector <int>> a) {
+int getValue(int i, int j, vector <vector <int>> &a) {
     return  a[i][j];
 }
-int SortMatrix(int n, int m, vector <vector <int>> a) {
+int SortMatrix(int n, int m, vector <vector <int>> &a) {
     int characteristiс, characteristic_next;
-        for (int j = 0; j < m - 1; j++)
+    for (int j = 0; j < m - 1; j++)
+    {
+        characteristic_next = 0;
+        characteristiс = 0;
+        for (int i = 0; i < n; i++)
         {
-            characteristic_next = 0;
-            characteristiс = 0;
-            for (int i = 0; i < n; i++)
+            if (a[i][j] < 0 && (a[i][j] % 2))
             {
-                if (a[i][j] < 0 && (a[i][j] % 2))
-                {
-                    characteristiс += abs(a[i][j]);
-                }
-                if (a[i][j + 1] < 0 && (a[i][j + 1] % 2))
-                {
-                    characteristic_next += abs(a[i][j + 1]);
-                }
+                characteristiс += abs(a[i][j]);
             }
-            cout << characteristiс << " ";
-            if (characteristic_next < characteristiс)
+            if (a[i][j + 1] < 0 && (a[i][j + 1] % 2))
             {
-                for (int p = 0; p < n; p++)
-                {
-                    swap(a[p][j], a[p][j + 1]);
-                }
+                characteristic_next += abs(a[i][j + 1]);
             }
         }
+        if (characteristic_next < characteristiс)
+        {
+            for (int p = 0; p < n; p++)
+            {
+                swap(a[p][j], a[p][j + 1]);
+            }
+        }
+    }
     cout << endl;
     for (int i = 0; i < n; i++)
     {
@@ -44,7 +43,7 @@ int SortMatrix(int n, int m, vector <vector <int>> a) {
     }
     return 0;
 }
-int matrixSum(int n, int m, vector <vector <int>> a) {
+int matrixSum(int n, int m, vector <vector <int>> &a) {
     int sum;
     for (int j = 0; j < m; j++)
     {
@@ -55,12 +54,12 @@ int matrixSum(int n, int m, vector <vector <int>> a) {
             {
                 for (int k = 0; k < n; k++)
                 {
-                   sum +=  a[k][j];
+                    sum += a[k][j];
                 }
                 cout << "Column " << j + 1 << " " << sum << " " << endl;
                 break;
-            }            
-        }            
+            }
+        }
     }
     return 0;
 }
@@ -79,7 +78,6 @@ int main()
         cout << "Enter Matrix size(n,m)\n";
         k++;
         cin >> m >> n;
-
     } while ((n > MAX_NUMBER_OF_MATRIX) || (m > MAX_NUMBER_OF_MATRIX) || ((n <= 0) || (m <= 0)));
     vector < vector <int> > a(n, vector <int>(m));
     cout << "Enter the values of  the elements at positions i + j = odd\n";
@@ -124,8 +122,8 @@ int main()
         cout << endl;
 
     }
-    cout << "-----------------------------------------------------------------------------------------------\n";
-    matrixSum(n,m,a);
+    cout << endl;
+    matrixSum(n, m, a);
     cout << endl;
     SortMatrix(n, m, a);
     return 0;
