@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <ctime>
 using namespace std;
 
 #define MAX_NUMBER_OF_MATRIX  10
@@ -82,6 +83,7 @@ int GetValue(int n, int m, vector <int>&matrix, int last_element, int i, int j) 
 	else {
 		pos = floor(((i + 1) * m - (m - (j + 1))) / 2) - 1;
 	}
+
 	if (!(j % 2))
 	{
 		pos = floor(((i + 1) * m - (m - (j + 1))) / 2) ;
@@ -91,6 +93,31 @@ int GetValue(int n, int m, vector <int>&matrix, int last_element, int i, int j) 
 	}
 	return matrix[pos];
 	
+}
+vector< int > BuildMatrix(int n , int m){
+    vector <int> matrix(ceil((n * m) / 2));
+    int method;
+    cout << "How do you want to filing the matrix, by keyboard input or random number generator(type 1, 2 accordingly\n";
+    cin >> method;
+    if (method == 1)
+    {
+        for (int i = 0; i < ceil((n * m) / 2); i++)
+        {
+            cin >> matrix[i];
+        }
+    }
+    else {
+        int right_border, left_border;
+        cout << "Enter the left border of the range\n";
+        cin >> left_border;
+        cout << "Enter the right border of the range\n";
+        cin >> right_border;
+        for (int i = 0; i < ceil((n * m) / 2); i++)
+        {
+            matrix[i] = rand() % right_border + left_border;
+        }
+    }
+    return matrix;
 }
 int main() {
 	srand(time(NULL));
@@ -107,28 +134,7 @@ int main() {
 		cin >> m >> n;
 	} while ((n > MAX_NUMBER_OF_MATRIX) || (m > MAX_NUMBER_OF_MATRIX) || ((n <= 0) || (m <= 0)));
 	int last_element(0);
-	vector <int> matrix(ceil((n * m) / 2));
-	int method;
-	cout << "How do you want to filing the matrix, by keyboard input or random number generator(type 1, 2 accordingly\n";
-	cin >> method;
-	if (method == 1)
-	{
-		for (int i = 0; i < ceil((n * m) / 2); i++)
-		{
-			cin >> matrix[i];
-		}
-	}
-	else {
-		int right_border, left_border;
-		cout << "Enter the left border of the range\n";
-		cin >> left_border;
-		cout << "Enter the right border of the range\n";
-		cin >> right_border;
-		for (int i = 0; i < ceil((n * m) / 2); i++)
-		{
-			matrix[i] = rand() % right_border + left_border;
-		}
-	}
+	vector<int> matrix = BuildMatrix(n, m);
 	PrintMatrix(n,m,matrix,0);
 	cout << endl;
 	ColumnSum(n, m, matrix, last_element);
